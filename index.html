@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABR Technologies — Make in India | Industrial Solutions</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Inter, sans-serif; background: #060a14; color: #e0e6f0; overflow-x: hidden; }
+  :root { --neon: #00c6ff; --neon2: #7b5ea7; --border: rgba(0,198,255,0.18); --card: rgba(12,20,38,0.9); }
+
+  /* NAV */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 64px; background: rgba(6,10,20,0.96); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+  .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .logo-icon { width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(135deg,#00c6ff,#7b5ea7); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: #fff; }
+  .logo-text { font-size: 17px; font-weight: 600; color: #fff; letter-spacing: 1px; }
+  .logo-sub { font-size: 9px; color: var(--neon); letter-spacing: 2px; text-transform: uppercase; display: block; }
+  .nav-links { display: flex; gap: 1.8rem; }
+  .nav-links a { color: #8fa0b8; font-size: 13px; text-decoration: none; cursor: pointer; transition: color .2s; padding: 4px 0; border-bottom: 2px solid transparent; }
+  .nav-links a:hover, .nav-links a.active { color: var(--neon); border-bottom-color: var(--neon); }
+  .nav-cta { background: linear-gradient(90deg,#00c6ff,#7b5ea7); border: none; color: #fff; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+
+  /* PAGE SYSTEM */
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .hero { min-height: 86vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,198,255,0.04) 1px,transparent 1px), linear-gradient(90deg,rgba(0,198,255,0.04) 1px,transparent 1px); background-size: 48px 48px; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+  .orb1 { width: 480px; height: 480px; background: rgba(0,198,255,0.07); top: -120px; left: -100px; }
+  .orb2 { width: 380px; height: 380px; background: rgba(123,94,167,0.09); bottom: -80px; right: -80px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,198,255,0.08); border: 1px solid rgba(0,198,255,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--neon); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .bdot { width: 6px; height: 6px; border-radius: 50%; background: var(--neon); }
+  .hero h1 { font-size: clamp(2rem,5vw,3.6rem); font-weight: 700; line-height: 1.15; color: #fff; margin-bottom: 1.2rem; position: relative; z-index: 1; }
+  .hero h1 span { background: linear-gradient(90deg,#00c6ff,#a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { font-size: 1rem; color: #8fa0b8; max-width: 540px; line-height: 1.7; margin-bottom: 2rem; position: relative; z-index: 1; }
+  .hbtns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+  .btn-p { background: linear-gradient(90deg,#00c6ff,#7b5ea7); border: none; color: #fff; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity .2s,transform .15s; }
+  .btn-p:hover { opacity: .9; transform: translateY(-1px); }
+  .btn-o { background: transparent; border: 1px solid rgba(0,198,255,0.45); color: var(--neon); padding: 12px 28px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: background .2s; }
+  .btn-o:hover { background: rgba(0,198,255,0.08); }
+
+  /* STATS */
+  .stats-bar { display: flex; justify-content: center; background: rgba(10,17,32,0.7); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 0; flex-wrap: wrap; }
+  .stat { text-align: center; padding: 0 2.5rem; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-size: 1.8rem; font-weight: 700; color: var(--neon); }
+  .stat-l { font-size: 11px; color: #8fa0b8; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+  /* SECTIONS */
+  .sec { padding: 4.5rem 2rem; }
+  .sec-inner { max-width: 1080px; margin: 0 auto; }
+  .sec-tag { display: inline-block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--neon); border: 1px solid rgba(0,198,255,0.25); border-radius: 4px; padding: 3px 10px; margin-bottom: .75rem; }
+  .sec-title { font-size: clamp(1.5rem,3vw,2.1rem); font-weight: 700; color: #fff; margin-bottom: .4rem; }
+  .sec-sub { font-size: .95rem; color: #8fa0b8; max-width: 480px; line-height: 1.6; margin-bottom: 2.5rem; }
+  .divider { height: 1px; background: var(--border); max-width: 1080px; margin: 0 auto; }
+
+  /* HOME PRODUCT CARDS */
+  .pgrid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1.25rem; }
+  .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem 1.4rem; transition: border-color .25s,transform .2s; position: relative; overflow: hidden; cursor: pointer; }
+  .pcard::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,#00c6ff,#7b5ea7); opacity: 0; transition: opacity .3s; }
+  .pcard:hover { border-color: rgba(0,198,255,.45); transform: translateY(-3px); }
+  .pcard:hover::before { opacity: 1; }
+  .pcard.dim { opacity: .55; cursor: default; }
+  .pcard.dim:hover { transform: none; border-color: var(--border); }
+  .pcard.dim:hover::before { opacity: 0; }
+  .pico { width: 48px; height: 48px; border-radius: 10px; background: rgba(0,198,255,0.08); border: 1px solid rgba(0,198,255,0.18); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .pico svg { width: 24px; height: 24px; stroke: var(--neon); fill: none; stroke-width: 1.5; }
+  .pname { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: .3rem; }
+  .pdesc { font-size: 12px; color: #8fa0b8; line-height: 1.6; margin-bottom: 1rem; }
+  .ptag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .t-av { background: rgba(0,198,255,0.1); color: var(--neon); border: 1px solid rgba(0,198,255,0.2); }
+  .t-co { background: rgba(123,94,167,0.15); color: #a78bfa; border: 1px solid rgba(123,94,167,0.25); }
+  .parr { margin-top: .75rem; font-size: 12px; color: var(--neon); display: flex; align-items: center; gap: 4px; }
+  .parr svg { width: 13px; height: 13px; stroke: var(--neon); fill: none; stroke-width: 2; }
+
+  /* CERTIFICATIONS GRID */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+  .cert-card { background: var(--card); border: 1px solid var(--border); padding: 1.75rem 1.4rem; border-radius: 12px; text-align: center; transition: border-color .25s, transform .2s; position: relative; overflow: hidden; }
+  .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,#00c6ff,#7b5ea7); opacity: 0; transition: opacity .3s; }
+  .cert-card:hover { border-color: rgba(0,198,255,.45); transform: translateY(-4px); }
+  .cert-card:hover::before { opacity: 1; }
+  .cert-icon { width: 52px; height: 52px; border-radius: 12px; background: rgba(0,198,255,0.08); border: 1px solid rgba(0,198,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .cert-icon svg { width: 26px; height: 26px; stroke: var(--neon); fill: none; stroke-width: 1.5; }
+  .cert-card h3 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+  .cert-card p { font-size: 12px; color: #8fa0b8; }
+
+  /* FEATURES */
+  .fgrid { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: 1.1rem; }
+  .fcard { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; }
+  .fnum { font-size: 1.8rem; font-weight: 800; color: rgba(0,198,255,0.18); line-height: 1; margin-bottom: .4rem; }
+  .ftitle { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: .3rem; }
+  .fdesc { font-size: 12px; color: #8fa0b8; line-height: 1.6; }
+
+  /* ABOUT */
+  .about-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+  .avis { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; display: flex; flex-direction: column; gap: .85rem; }
+  .apill { display: flex; align-items: center; gap: 10px; background: rgba(0,198,255,0.04); border: 1px solid var(--border); border-radius: 8px; padding: .65rem .9rem; }
+  .adot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .ad-b { background: var(--neon); } .ad-p { background: #a78bfa; }
+  .alabel { font-size: 12px; color: #b0c2d8; }
+  .aval { font-size: 12px; color: #fff; font-weight: 500; margin-left: auto; }
+
+  /* CONTACT */
+  .cform { max-width: 660px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 2.2rem; }
+  .crow { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-bottom: .9rem; }
+  .cf { display: flex; flex-direction: column; gap: 5px; margin-bottom: .9rem; }
+  .cf label { font-size: 11px; color: #8fa0b8; letter-spacing: .5px; text-transform: uppercase; }
+  .cf input, .cf textarea, .cf select { background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; color: #e0e6f0; font-size: 13px; outline: none; font-family: inherit; transition: border-color .2s; }
+  .cf input:focus, .cf textarea:focus, .cf select:focus { border-color: var(--neon); }
+  .cf textarea { min-height: 90px; resize: vertical; }
+  .cf select option { background: #0a111e; }
+  .csub { width: 100%; background: linear-gradient(90deg,#00c6ff,#7b5ea7); border: none; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: .4rem; transition: opacity .2s; }
+  .csub:hover { opacity: .9; }
+
+  /* FOOTER */
+  footer { background: rgba(4,6,14,.95); border-top: 1px solid var(--border); padding: 2.2rem; text-align: center; }
+  .flogo { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-bottom: .3rem; }
+  .fsub { font-size: 10px; color: var(--neon); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+  .flinks { display: flex; justify-content: center; gap: 1.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .flinks a { font-size: 12px; color: #8fa0b8; text-decoration: none; cursor: pointer; }
+  .flinks a:hover { color: var(--neon); }
+  .fcopy { font-size: 11px; color: #3a4a60; }
+
+  /* LISTING PAGE */
+  .lpage { padding: 2rem 2rem 4rem; max-width: 1120px; margin: 0 auto; }
+  .breadcrumb { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #8fa0b8; margin-bottom: 1.75rem; }
+  .breadcrumb span { cursor: pointer; } .breadcrumb span:hover { color: var(--neon); }
+  .breadcrumb .sep { color: #3a4a60; } .breadcrumb .cur { color: #e0e6f0; cursor: default; }
+  .lheader { margin-bottom: 1.75rem; }
+  .lheader h2 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+  .lheader p { font-size: 13px; color: #8fa0b8; }
+
+  /* FILTER BAR */
+  .fbar { display: flex; align-items: center; gap: .9rem; flex-wrap: wrap; margin-bottom: 2.2rem; padding: 1.1rem 1.4rem; background: #0d1628; border: 1px solid rgba(0,198,255,0.25); border-radius: 11px; }
+  .flabel { font-size: 11px; color: #c0d0e8; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; font-weight: 600; }
+  .chips { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .chip { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid #3a5070; background: #162035; color: #c0d0e8; transition: all .18s; line-height: 1; }
+  .chip:hover { border-color: #00c6ff; color: #fff; background: #1c2d48; }
+  .chip.on { background: rgba(0,198,255,0.18); border-color: #00c6ff; color: #00c6ff; }
+  .chip.intel.on { background: rgba(0,140,255,0.18); border-color: #4db8ff; color: #4db8ff; }
+  .chip.amd.on { background: rgba(237,60,60,0.18); border-color: #ff6b6b; color: #ff6b6b; }
+  .fdiv { width: 1px; height: 28px; background: rgba(0,198,255,0.2); }
+  .rcount { margin-left: auto; font-size: 12px; color: #c0d0e8; font-weight: 500; }
+
+  /* PRODUCT LISTING CARDS */
+  .lgrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 1.4rem; }
+  .lcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color .25s,transform .2s; }
+  .lcard:hover { border-color: rgba(0,198,255,.45); transform: translateY(-3px); }
+  .limg { width: 100%; height: 175px; background: #070d1a; display: flex; align-items: center; justify-content: center; position: relative; border-bottom: 1px solid var(--border); }
+  .pbadge { position: absolute; top: 10px; right: 10px; padding: 3px 9px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: .4px; }
+  .ib { background: rgba(0,114,206,0.22); color: #4db8ff; border: 1px solid rgba(0,114,206,0.4); }
+  .ab { background: rgba(237,28,36,0.18); color: #ff6b6b; border: 1px solid rgba(237,28,36,0.38); }
+  .lbody { padding: 1.1rem 1.2rem 1.4rem; }
+  .luse { font-size: 11px; color: var(--neon); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+  .lname { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: .7rem; }
+  .lspecs { display: flex; flex-direction: column; gap: 4px; margin-bottom: 1rem; }
+  .lspec { display: flex; justify-content: space-between; font-size: 12px; }
+  .lsk { color: #8fa0b8; } .lsv { color: #e0e6f0; font-weight: 500; }
+  .lfoot { display: flex; align-items: center; justify-content: space-between; }
+  .lprice { font-size: 14px; font-weight: 700; color: #fff; }
+  .lprice span { font-size: 11px; color: #8fa0b8; font-weight: 400; }
+  .lbtn { background: linear-gradient(90deg,#00c6ff,#7b5ea7); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; }
+  .nores { text-align: center; padding: 3.5rem 2rem; color: #8fa0b8; grid-column: 1/-1; }
+
+  /* ===== SUPPORT PAGE ===== */
+  .support-page { padding: 3rem 2rem 5rem; max-width: 960px; margin: 0 auto; }
+  .support-page .page-heading { text-align: center; margin-bottom: 3rem; }
+  .support-page .page-heading h2 { font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 700; color: #fff; margin-bottom: .5rem; }
+  .support-page .page-heading h2 span { background: linear-gradient(90deg,#00c6ff,#a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .support-page .page-heading p { font-size: 14px; color: #8fa0b8; }
+
+  /* WARRANTY BOX */
+  .warranty-box { max-width: 600px; margin: 0 auto 4rem; background: var(--card); border: 1px solid var(--border); padding: 2.5rem; border-radius: 16px; }
+  .warranty-box h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
+  .warranty-box h3 svg { width: 20px; height: 20px; stroke: var(--neon); fill: none; stroke-width: 1.7; }
+  .warranty-input-row { display: flex; gap: 10px; }
+  .warranty-input-row input { flex: 1; padding: 11px 14px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,0.35); color: #e0e6f0; font-size: 13px; outline: none; font-family: inherit; transition: border-color .2s; }
+  .warranty-input-row input:focus { border-color: var(--neon); }
+  .warranty-btn { padding: 11px 22px; background: linear-gradient(90deg,#00c6ff,#7b5ea7); border: none; color: #fff; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity .2s; }
+  .warranty-btn:hover { opacity: .85; }
+  .warranty-result { margin-top: 1.2rem; padding: 1rem 1.2rem; border-radius: 10px; display: none; background: rgba(0,0,0,0.35); border: 1px solid var(--border); }
+  .warranty-result.active { display: block; }
+  .warranty-result .wr-status { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .warranty-result .wr-detail { font-size: 12px; color: #8fa0b8; }
+
+  /* DRIVER DOWNLOADS */
+  .driver-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; margin-bottom: 4rem; }
+  .driver-section h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: .4rem; display: flex; align-items: center; gap: 8px; }
+  .driver-section h3 svg { width: 20px; height: 20px; stroke: var(--neon); fill: none; stroke-width: 1.7; }
+  .driver-section p { font-size: 13px; color: #8fa0b8; margin-bottom: 1.5rem; }
+  .driver-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .driver-btn { display: flex; align-items: center; gap: 10px; background: rgba(0,198,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; cursor: pointer; transition: border-color .2s, background .2s; text-align: left; color: #e0e6f0; font-family: inherit; }
+  .driver-btn:hover { border-color: var(--neon); background: rgba(0,198,255,0.08); }
+  .driver-btn svg { width: 20px; height: 20px; stroke: var(--neon); fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .driver-btn .db-label { font-size: 13px; font-weight: 600; color: #fff; }
+  .driver-btn .db-sub { font-size: 11px; color: #8fa0b8; margin-top: 1px; }
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-float { position: fixed; bottom: 25px; right: 25px; background: #25d366; color: #fff; padding: 12px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 13px; z-index: 1000; box-shadow: 0 8px 24px rgba(37,211,102,0.35); transition: transform .2s, box-shadow .2s; }
+  .whatsapp-float:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 32px rgba(37,211,102,0.45); }
+  .whatsapp-float img { width: 22px; height: 22px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .about-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .crow { grid-template-columns: 1fr; }
+    .stat { padding: 0 1.5rem; }
+    .fbar { gap: .6rem; }
+    .warranty-input-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="go('home')">
+    <div class="logo-icon">ABR</div>
+    <div><div class="logo-text">ABR</div><span class="logo-sub">Technologies</span></div>
+  </div>
+  <div class="nav-links">
+    <a id="n-home" class="active" onclick="go('home')">Home</a>
+    <a id="n-desktops" onclick="go('desktops')">Desktops</a>
+    <a id="n-workstations" onclick="go('workstations')">Workstations</a>
+    <a onclick="gohome('why')">Why ABR</a>
+    <a id="n-support" onclick="go('support')">Support</a>
+    <a onclick="gohome('contact')">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="gohome('contact')">Get a Quote</button>
+</nav>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="orb orb1"></div><div class="orb orb2"></div>
+    <div class="hero-badge"><span class="bdot"></span>Make in India</div>
+    <h1>Built for the Future.<br>Engineered in <span>India.</span></h1>
+    <p>ABR Technologies delivers high-performance desktop computers and workstations — precision-built for professionals, enterprises, and institutions who demand more.</p>
+    <div class="hbtns">
+      <button class="btn-p" onclick="go('desktops')">Explore Desktops</button>
+      <button class="btn-o" onclick="gohome('contact')">Request a Quote</button>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-n">500+</div><div class="stat-l">Projects Delivered</div></div>
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Years Experience</div></div>
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Made in India</div></div>
+    <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Support</div></div>
+  </div>
+
+  <!-- PRODUCTS SECTION -->
+  <div class="sec">
+    <div class="sec-inner">
+      <div class="sec-tag">Our Products</div>
+      <div class="sec-title">Machines that mean business</div>
+      <div class="sec-sub">Engineered for performance. Backed by ABR.</div>
+      <div class="pgrid">
+        <div class="pcard" onclick="go('desktops')">
+          <div class="pico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="pname">Desktop Computers</div>
+          <div class="pdesc">Business-grade desktops for productivity, multitasking, and enterprise reliability.</div>
+          <span class="ptag t-av">Available Now</span>
+          <div class="parr">Browse models <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+        <div class="pcard" onclick="go('workstations')">
+          <div class="pico"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div>
+          <div class="pname">Workstations</div>
+          <div class="pdesc">High-compute machines for CAD, rendering, and professional workloads.</div>
+          <span class="ptag t-av">Available Now</span>
+          <div class="parr">Browse models <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+        <div class="pcard dim">
+          <div class="pico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M1 20h22"/></svg></div>
+          <div class="pname">Laptops</div>
+          <div class="pdesc">Portable ABR power — crafted for professionals on the move.</div>
+          <span class="ptag t-co">Coming Soon</span>
+        </div>
+        <div class="pcard dim">
+          <div class="pico"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="18" rx="2"/><path d="M8 22h8M12 20v2"/></svg></div>
+          <div class="pname">All-in-One PCs</div>
+          <div class="pdesc">Sleek space-saving AIO systems merging hardware and display.</div>
+          <span class="ptag t-co">On the Way</span>
+        </div>
+        <div class="pcard dim">
+          <div class="pico"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="18" cy="6" r="1.5"/><circle cx="18" cy="18" r="1.5"/></svg></div>
+          <div class="pname">Servers</div>
+          <div class="pdesc">Enterprise server solutions for data centres and cloud workloads.</div>
+          <span class="ptag t-co">In the Pipeline</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CERTIFICATIONS SECTION -->
+  <div class="sec" id="certifications">
+    <div class="sec-inner">
+      <div class="sec-tag">Compliance</div>
+      <div class="sec-title">Our Certifications & Standards</div>
+      <div class="sec-sub">Every ABR product meets stringent national and international quality, safety, and efficiency standards.</div>
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <h3>ISO 9001:2015</h3>
+          <p>Quality Management System certified</p>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3>BIS Certified</h3>
+          <p>Bureau of Indian Standards safety compliance</p>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3>BEE Star Rated</h3>
+          <p>Energy efficiency rated by Bureau of Energy Efficiency</p>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <h3>GeM OEM</h3>
+          <p>Authorised seller on Government e-Marketplace</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHY ABR -->
+  <div class="sec" id="why">
+    <div class="sec-inner">
+      <div class="sec-tag">Why ABR</div>
+      <div class="sec-title">The ABR advantage</div>
+      <div class="sec-sub">We don't just build computers. We build trust.</div>
+      <div class="fgrid">
+        <div class="fcard"><div class="fnum">01</div><div class="ftitle">Make in India</div><div class="fdesc">Designed and assembled in India — supporting local manufacturing.</div></div>
+        <div class="fcard"><div class="fnum">02</div><div class="ftitle">Enterprise Grade</div><div class="fdesc">Every machine tested against rigorous quality benchmarks before dispatch.</div></div>
+        <div class="fcard"><div class="fnum">03</div><div class="ftitle">Certified & Trusted</div><div class="fdesc">Serving government bodies, educational institutions, and enterprises.</div></div>
+        <div class="fcard"><div class="fnum">04</div><div class="ftitle">After-Sales Support</div><div class="fdesc">Dedicated service network with onsite support and rapid response.</div></div>
+        <div class="fcard"><div class="fnum">05</div><div class="ftitle">Custom Builds</div><div class="fdesc">OEM and ODM solutions tailored to your requirements and budgets.</div></div>
+        <div class="fcard"><div class="fnum">06</div><div class="ftitle">GEM Registered</div><div class="fdesc">Available on Government e-Marketplace for government procurement.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <div class="sec" id="about">
+    <div class="sec-inner about-wrap">
+      <div>
+        <div class="sec-tag">About Us</div>
+        <div class="sec-title">ABR Technologies<br>Private Limited</div>
+        <div class="sec-sub">At ABR Technologies, we believe great technology should be built at home. Our mission is to deliver world-class computing solutions — designed, engineered, and manufactured in India — without compromise.<br><br>From small businesses to large institutions, ABR powers the machines that power India.</div>
+        <button class="btn-o" onclick="gohome('contact')">Get in Touch</button>
+      </div>
+      <div class="avis">
+        <div style="font-size:11px;color:#8fa0b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem">Product Status</div>
+        <div class="apill"><div class="adot ad-b"></div><span class="alabel">Desktops</span><span class="aval">Available</span></div>
+        <div class="apill"><div class="adot ad-b"></div><span class="alabel">Workstations</span><span class="aval">Available</span></div>
+        <div class="apill"><div class="adot ad-p"></div><span class="alabel">Laptops</span><span class="aval">Coming Soon</span></div>
+        <div class="apill"><div class="adot ad-p"></div><span class="alabel">All-in-One PCs</span><span class="aval">On the Way</span></div>
+        <div class="apill"><div class="adot ad-p"></div><span class="alabel">Servers</span><span class="aval">In Pipeline</span></div>
+        <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
+          <div style="font-size:11px;color:#8fa0b8;margin-bottom:4px">Headquarters</div>
+          <div style="font-size:13px;color:#e0e6f0">Chennai, Tamil Nadu, India</div>
+          <div style="font-size:11px;color:#8fa0b8;margin-top:5px">enquiry@abrtechnologies.in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <div class="sec" id="contact">
+    <div class="sec-inner" style="text-align:center">
+      <div class="sec-tag">Contact</div>
+      <div class="sec-title">Let's build something together</div>
+      <div class="sec-sub" style="margin:0 auto 2.2rem">Bulk orders, OEM inquiries, or product questions — we're here.</div>
+      <div class="cform">
+        <div class="crow">
+          <div class="cf"><label>Full Name</label><input type="text" placeholder="Your name"/></div>
+          <div class="cf"><label>Organisation</label><input type="text" placeholder="Company / Institution"/></div>
+        </div>
+        <div class="crow">
+          <div class="cf"><label>Email</label><input type="email" placeholder="you@company.com"/></div>
+          <div class="cf"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"/></div>
+        </div>
+        <div class="cf"><label>Interested In</label>
+          <select><option value="">Select a product</option><option>Desktop Computers</option><option>Workstations</option><option>OEM / Custom Solution</option><option>Bulk Order Inquiry</option><option>Other</option></select>
+        </div>
+        <div class="cf"><label>Message</label><textarea placeholder="Tell us about your requirements..."></textarea></div>
+        <button class="csub">Send Inquiry</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="flogo">ABR</div>
+    <div class="fsub">Technologies Private Limited</div>
+    <div class="flinks">
+      <a onclick="go('home')">Home</a>
+      <a onclick="go('desktops')">Desktops</a>
+      <a onclick="go('workstations')">Workstations</a>
+      <a onclick="gohome('why')">Why ABR</a>
+      <a onclick="go('support')">Support</a>
+      <a onclick="gohome('contact')">Contact</a>
+    </div>
+    <div style="font-size:12px;color:#8fa0b8;margin-bottom:.5rem">Chennai, Tamil Nadu, India &nbsp;|&nbsp; enquiry@abrtechnologies.in</div>
+    <div style="font-size:11px;color:#8fa0b8;margin-bottom:.4rem">GeM OEM ID: ABR-TECH-IN-2024 &nbsp;|&nbsp; BIS Registered</div>
+    <div class="fcopy">© 2025 ABR Technologies Private Limited. Make in India. All rights reserved.</div>
+  </footer>
+
+</div><!-- end home -->
+
+<!-- ===== DESKTOPS PAGE ===== -->
+<div class="page" id="page-desktops">
+  <div class="lpage">
+    <div class="breadcrumb"><span onclick="go('home')">Home</span><span class="sep">›</span><span class="cur">Desktop Computers</span></div>
+    <div class="lheader"><h2>Desktop Computers</h2><p>Business-grade, Make in India desktops for every professional need.</p></div>
+    <div class="fbar">
+      <span class="flabel">Processor</span>
+      <div class="chips" id="dchips">
+        <button class="chip on" data-f="all" onclick="filt('d','proc','all')">All</button>
+        <button class="chip intel" data-f="intel" onclick="filt('d','proc','intel')">Intel</button>
+        <button class="chip amd" data-f="amd" onclick="filt('d','proc','amd')">AMD</button>
+      </div>
+      <div class="fdiv"></div>
+      <span class="flabel">Use Case</span>
+      <div class="chips" id="duchips">
+        <button class="chip on" data-u="all" onclick="filt('d','use','all')">All</button>
+        <button class="chip" data-u="office" onclick="filt('d','use','office')">Office</button>
+        <button class="chip" data-u="creative" onclick="filt('d','use','creative')">Creative</button>
+        <button class="chip" data-u="enterprise" onclick="filt('d','use','enterprise')">Enterprise</button>
+      </div>
+      <span class="rcount" id="dcnt">6 products</span>
+    </div>
+    <div class="lgrid" id="dgrid"></div>
+  </div>
+</div>
+
+<!-- ===== WORKSTATIONS PAGE ===== -->
+<div class="page" id="page-workstations">
+  <div class="lpage">
+    <div class="breadcrumb"><span onclick="go('home')">Home</span><span class="sep">›</span><span class="cur">Workstations</span></div>
+    <div class="lheader"><h2>Workstations</h2><p>High-compute power for CAD, rendering, simulation, and data workloads.</p></div>
+    <div class="fbar">
+      <span class="flabel">Processor</span>
+      <div class="chips" id="wchips">
+        <button class="chip on" data-f="all" onclick="filt('w','proc','all')">All</button>
+        <button class="chip intel" data-f="intel" onclick="filt('w','proc','intel')">Intel</button>
+        <button class="chip amd" data-f="amd" onclick="filt('w','proc','amd')">AMD</button>
+      </div>
+      <div class="fdiv"></div>
+      <span class="flabel">Use Case</span>
+      <div class="chips" id="wuchips">
+        <button class="chip on" data-u="all" onclick="filt('w','use','all')">All</button>
+        <button class="chip" data-u="cad" onclick="filt('w','use','cad')">CAD / Design</button>
+        <button class="chip" data-u="render" onclick="filt('w','use','render')">Rendering</button>
+        <button class="chip" data-u="data" onclick="filt('w','use','data')">Data & AI</button>
+      </div>
+      <span class="rcount" id="wcnt">6 products</span>
+    </div>
+    <div class="lgrid" id="wgrid"></div>
+  </div>
+</div>
+
+<!-- ===== SUPPORT PAGE ===== -->
+<div class="page" id="page-support">
+  <div class="support-page">
+
+    <div class="breadcrumb"><span onclick="go('home')">Home</span><span class="sep">›</span><span class="cur">Support & Warranty</span></div>
+
+    <div class="page-heading">
+      <h2>Support <span>Center</span></h2>
+      <p>Check warranty status, download drivers, or reach out to our service team.</p>
+    </div>
+
+    <!-- WARRANTY CHECKER -->
+    <div class="warranty-box">
+      <h3>
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Warranty Status Check
+      </h3>
+      <p style="font-size:13px;color:#8fa0b8;margin-bottom:1.2rem">Enter your ABR device serial number to check your warranty coverage.</p>
+      <div class="warranty-input-row">
+        <input type="text" id="serialInput" placeholder="Enter Serial Number (e.g. ABR-101)" />
+        <button class="warranty-btn" onclick="checkWarranty()">Check Status</button>
+      </div>
+      <div class="warranty-result" id="warrantyResult">
+        <div class="wr-status" id="wrStatus"></div>
+        <div class="wr-detail" id="wrDetail"></div>
+      </div>
+    </div>
+
+    <!-- DRIVER DOWNLOADS -->
+    <div class="driver-section">
+      <h3>
+        <svg viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Driver Downloads
+      </h3>
+      <p>Select your ABR product line to download the latest certified drivers and firmware.</p>
+      <div class="driver-grid">
+        <button class="driver-btn" onclick="driverAlert('Desktop Drivers')">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <div><div class="db-label">Desktop Drivers</div><div class="db-sub">Chipset, LAN, Audio</div></div>
+        </button>
+        <button class="driver-btn" onclick="driverAlert('Workstation Drivers')">
+          <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 7h6M9 11h6"/></svg>
+          <div><div class="db-label">Workstation Drivers</div><div class="db-sub">GPU, ECC, RAID</div></div>
+        </button>
+        <button class="driver-btn" onclick="driverAlert('Workstation BIOS')">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          <div><div class="db-label">BIOS / Firmware</div><div class="db-sub">Workstation & Desktop</div></div>
+        </button>
+        <button class="driver-btn" onclick="driverAlert('Utilities & Tools')">
+          <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          <div><div class="db-label">Utilities & Tools</div><div class="db-sub">Diagnostics, Updaters</div></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- SUPPORT CONTACT INFO -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;">
+      <div class="fcard" style="border-radius:12px;">
+        <div class="ftitle" style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem;">
+          <svg style="width:18px;height:18px;stroke:var(--neon);fill:none;stroke-width:1.7" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          Phone Support
+        </div>
+        <div class="fdesc">+91 98765 43210<br>Mon–Sat, 9 AM – 6 PM IST</div>
+      </div>
+      <div class="fcard" style="border-radius:12px;">
+        <div class="ftitle" style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem;">
+          <svg style="width:18px;height:18px;stroke:var(--neon);fill:none;stroke-width:1.7" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Email Support
+        </div>
+        <div class="fdesc">support@abrtechnologies.in<br>Response within 24 hours</div>
+      </div>
+      <div class="fcard" style="border-radius:12px;">
+        <div class="ftitle" style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem;">
+          <svg style="width:18px;height:18px;stroke:var(--neon);fill:none;stroke-width:1.7" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+          Service Centre
+        </div>
+        <div class="fdesc">Chennai, Tamil Nadu<br>Walk-in: Mon–Fri, 10 AM – 5 PM</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+  <span>Sales Inquiry</span>
+</a>
+
+<script>
+/* ============================================================
+   PRODUCT DATA — Edit prices & specs here anytime
+   Fields: name, brand (intel/amd), use, proc, ram, storage, price
+   Desktop use values: office | creative | enterprise
+   Workstation use values: cad | render | data
+   ============================================================ */
+
+const deskData = [
+  { id:'d1', name:'ABR CorePro i5',    brand:'intel', use:'office',     proc:'Intel Core i5-13400',  ram:'8GB DDR4',      storage:'512GB SSD',      price:'₹32,999',   c1:'#00c6ff', c2:'#4db8ff' },
+  { id:'d2', name:'ABR CorePro i7',    brand:'intel', use:'creative',   proc:'Intel Core i7-13700',  ram:'16GB DDR4',     storage:'1TB SSD',        price:'₹52,999',   c1:'#00c6ff', c2:'#7b5ea7' },
+  { id:'d3', name:'ABR CoreElite i9',  brand:'intel', use:'enterprise', proc:'Intel Core i9-13900',  ram:'32GB DDR5',     storage:'2TB NVMe',       price:'₹89,999',   c1:'#4db8ff', c2:'#00c6ff' },
+  { id:'d4', name:'ABR RyzenEdge 5',   brand:'amd',   use:'office',     proc:'AMD Ryzen 5 7600',     ram:'8GB DDR5',      storage:'512GB NVMe',     price:'₹29,999',   c1:'#ff6b6b', c2:'#ff9a3c' },
+  { id:'d5', name:'ABR RyzenEdge 7',   brand:'amd',   use:'creative',   proc:'AMD Ryzen 7 7700X',    ram:'16GB DDR5',     storage:'1TB NVMe',       price:'₹49,999',   c1:'#ff6b6b', c2:'#a78bfa' },
+  { id:'d6', name:'ABR RyzenMax 9',    brand:'amd',   use:'enterprise', proc:'AMD Ryzen 9 7900X',    ram:'64GB DDR5',     storage:'4TB NVMe',       price:'₹1,09,999', c1:'#ff9a3c', c2:'#ff6b6b' },
+];
+
+const wsData = [
+  { id:'w1', name:'ABR ProStation i7',    brand:'intel', use:'cad',    proc:'Intel Core i7-13700K',   ram:'32GB DDR5 ECC',  storage:'1TB NVMe',       price:'₹79,999',   c1:'#00c6ff', c2:'#4db8ff' },
+  { id:'w2', name:'ABR ProStation i9',    brand:'intel', use:'render', proc:'Intel Core i9-13900K',   ram:'64GB DDR5 ECC',  storage:'2TB NVMe',       price:'₹1,39,999', c1:'#4db8ff', c2:'#7b5ea7' },
+  { id:'w3', name:'ABR XeonForge W5',     brand:'intel', use:'data',   proc:'Intel Xeon W5-3425',     ram:'128GB DDR5 ECC', storage:'4TB NVMe RAID',  price:'₹2,89,999', c1:'#00c6ff', c2:'#a78bfa' },
+  { id:'w4', name:'ABR ThreadStation TR', brand:'amd',   use:'render', proc:'AMD Threadripper 7960X', ram:'128GB DDR5 ECC', storage:'4TB NVMe',       price:'₹3,49,999', c1:'#ff6b6b', c2:'#ff9a3c' },
+  { id:'w5', name:'ABR RyzenPro 9 WX',   brand:'amd',   use:'cad',    proc:'AMD Ryzen 9 Pro 7945',   ram:'64GB DDR5 ECC',  storage:'2TB NVMe',       price:'₹1,69,999', c1:'#ff6b6b', c2:'#a78bfa' },
+  { id:'w6', name:'ABR EpycCore 9',       brand:'amd',   use:'data',   proc:'AMD EPYC 9224',          ram:'256GB DDR5 ECC', storage:'8TB NVMe RAID',  price:'₹5,49,999', c1:'#ff9a3c', c2:'#ff6b6b' },
+];
+
+/* WARRANTY DATABASE — Add real serial numbers here */
+const warrantyDB = {
+  "ABR-101": { status: "Active",   expiry: "December 2025", product: "ABR CorePro i5" },
+  "ABR-102": { status: "Expired",  expiry: "January 2024",  product: "ABR RyzenEdge 5" },
+  "ABR-103": { status: "Active",   expiry: "March 2026",    product: "ABR ProStation i7" },
+  "ABR-104": { status: "Active",   expiry: "June 2027",     product: "ABR CoreElite i9" },
+  "ABR-105": { status: "Expired",  expiry: "August 2023",   product: "ABR RyzenEdge 7" },
+};
+
+/* ============================================================
+   SVG ILLUSTRATIONS
+   ============================================================ */
+function pcSVG(c1,c2){
+  return `<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:115px;height:90px;filter:drop-shadow(0 0 12px ${c1}44)">
+    <rect x="8" y="8" width="144" height="90" rx="7" fill="#0a111e" stroke="${c1}" stroke-width="1.2"/>
+    <rect x="16" y="16" width="128" height="72" rx="3" fill="#060a14"/>
+    <rect x="22" y="22" width="116" height="56" rx="2" fill="#0c1626"/>
+    <line x1="22" y1="42" x2="138" y2="42" stroke="${c1}" stroke-width="0.4" stroke-opacity="0.3"/>
+    <line x1="22" y1="57" x2="138" y2="57" stroke="${c1}" stroke-width="0.4" stroke-opacity="0.3"/>
+    <rect x="28" y="27" width="36" height="5" rx="2.5" fill="${c1}" fill-opacity="0.45"/>
+    <rect x="28" y="47" width="60" height="3" rx="1.5" fill="${c2}" fill-opacity="0.35"/>
+    <rect x="28" y="55" width="44" height="3" rx="1.5" fill="${c2}" fill-opacity="0.22"/>
+    <rect x="28" y="62" width="45" height="3" rx="1.5" fill="${c2}" fill-opacity="0.22"/>
+    <rect x="68" y="98" width="24" height="5" rx="2" fill="#1a2540"/>
+    <rect x="50" y="103" width="60" height="7" rx="3.5" fill="#0d1525" stroke="${c1}" stroke-width="0.7" stroke-opacity="0.35"/>
+    <circle cx="140" cy="16" r="2.5" fill="${c1}" fill-opacity="0.55"/>
+  </svg>`;
+}
+
+function wsSVG(c1,c2){
+  return `<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:115px;height:90px;filter:drop-shadow(0 0 12px ${c1}44)">
+    <rect x="10" y="8" width="52" height="104" rx="5" fill="#0a111e" stroke="${c1}" stroke-width="1.2"/>
+    <rect x="16" y="15" width="40" height="9" rx="2.5" fill="#0d1a2e" stroke="${c1}" stroke-width="0.5" stroke-opacity="0.45"/>
+    <rect x="16" y="28" width="40" height="9" rx="2.5" fill="#0d1a2e" stroke="${c1}" stroke-width="0.5" stroke-opacity="0.35"/>
+    <rect x="16" y="41" width="40" height="9" rx="2.5" fill="#0d1a2e" stroke="${c1}" stroke-width="0.5" stroke-opacity="0.25"/>
+    <circle cx="51" cy="19.5" r="2" fill="${c1}" fill-opacity="0.65"/>
+    <circle cx="51" cy="32.5" r="2" fill="${c2}" fill-opacity="0.45"/>
+    <circle cx="51" cy="45.5" r="2" fill="${c1}" fill-opacity="0.25"/>
+    <rect x="18" y="88" width="10" height="16" rx="1.5" fill="#0d1a2e" stroke="${c1}" stroke-width="0.5" stroke-opacity="0.35"/>
+    <rect x="32" y="88" width="10" height="16" rx="1.5" fill="#0d1a2e" stroke="${c2}" stroke-width="0.5" stroke-opacity="0.35"/>
+    <rect x="74" y="18" width="76" height="84" rx="4" fill="#060a14" stroke="${c2}" stroke-width="0.7" stroke-opacity="0.45"/>
+    <rect x="80" y="24" width="64" height="72" rx="2" fill="#090f1c"/>
+    <rect x="86" y="30" width="28" height="4" rx="2" fill="${c1}" fill-opacity="0.45"/>
+    <rect x="86" y="40" width="52" height="3" rx="1.5" fill="${c2}" fill-opacity="0.3"/>
+    <rect x="86" y="48" width="40" height="3" rx="1.5" fill="${c2}" fill-opacity="0.2"/>
+    <rect x="86" y="60" width="22" height="16" rx="2" fill="${c1}" fill-opacity="0.07" stroke="${c1}" stroke-width="0.5" stroke-opacity="0.25"/>
+    <rect x="112" y="60" width="22" height="16" rx="2" fill="${c2}" fill-opacity="0.07" stroke="${c2}" stroke-width="0.5" stroke-opacity="0.25"/>
+  </svg>`;
+}
+
+function renderGrid(data, gridId, type) {
+  const el = document.getElementById(gridId);
+  if (!data.length) {
+    el.innerHTML = `<div class="nores"><p style="font-size:14px;margin-bottom:.5rem">No products match your filters.</p><p style="font-size:12px">Try a different processor or use case.</p></div>`;
+    return;
+  }
+  el.innerHTML = data.map(p => {
+    const img = type === 'd' ? pcSVG(p.c1, p.c2) : wsSVG(p.c1, p.c2);
+    const bc  = p.brand === 'intel' ? 'ib' : 'ab';
+    const bl  = p.brand === 'intel' ? 'Intel' : 'AMD';
+    const ul  = p.use === 'cad' ? 'CAD / Design' : p.use.charAt(0).toUpperCase() + p.use.slice(1);
+    return `<div class="lcard">
+      <div class="limg">${img}<span class="pbadge ${bc}">${bl}</span></div>
+      <div class="lbody">
+        <div class="luse">${ul}</div>
+        <div class="lname">${p.name}</div>
+        <div class="lspecs">
+          <div class="lspec"><span class="lsk">Processor</span><span class="lsv">${p.proc}</span></div>
+          <div class="lspec"><span class="lsk">RAM</span><span class="lsv">${p.ram}</span></div>
+          <div class="lspec"><span class="lsk">Storage</span><span class="lsv">${p.storage}</span></div>
+        </div>
+        <div class="lfoot">
+          <div class="lprice">${p.price} <span>onwards</span></div>
+          <button class="lbtn" onclick="alert('Enquiry for: ${p.name}\\nPlease contact: enquiry@abrtechnologies.in')">Enquire</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getFiltered(data, proc, use) {
+  return data.filter(p => (proc === 'all' || p.brand === proc) && (use === 'all' || p.use === use));
+}
+
+function filt(t, dim, val) {
+  if (dim === 'proc') {
+    state[t].proc = val;
+    document.querySelectorAll(`#${t}chips .chip`).forEach(c => c.classList.toggle('on', c.dataset.f === val));
+  } else {
+    state[t].use = val;
+    document.querySelectorAll(`#${t}uchips .chip`).forEach(c => c.classList.toggle('on', c.dataset.u === val));
+  }
+  const data     = t === 'd' ? deskData : wsData;
+  const filtered = getFiltered(data, state[t].proc, state[t].use);
+  renderGrid(filtered, t === 'd' ? 'dgrid' : 'wgrid', t);
+  const cnt = document.getElementById(t === 'd' ? 'dcnt' : 'wcnt');
+  cnt.textContent = filtered.length + ' product' + (filtered.length !== 1 ? 's' : '');
+}
+
+function go(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const ne = document.getElementById('n-' + name);
+  if (ne) ne.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (name === 'desktops') {
+    state.d = { proc:'all', use:'all' };
+    document.querySelectorAll('#dchips .chip').forEach(c => c.classList.toggle('on', c.dataset.f === 'all'));
+    document.querySelectorAll('#duchips .chip').forEach(c => c.classList.toggle('on', c.dataset.u === 'all'));
+    renderGrid(deskData, 'dgrid', 'd');
+    document.getElementById('dcnt').textContent = deskData.length + ' products';
+  }
+  if (name === 'workstations') {
+    state.w = { proc:'all', use:'all' };
+    document.querySelectorAll('#wchips .chip').forEach(c => c.classList.toggle('on', c.dataset.f === 'all'));
+    document.querySelectorAll('#wuchips .chip').forEach(c => c.classList.toggle('on', c.dataset.u === 'all'));
+    renderGrid(wsData, 'wgrid', 'w');
+    document.getElementById('wcnt').textContent = wsData.length + ' products';
+  }
+}
+
+function gohome(id) {
+  go('home');
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 120);
+}
+
+function checkWarranty() {
+  const serial = document.getElementById('serialInput').value.trim().toUpperCase();
+  const resultDiv = document.getElementById('warrantyResult');
+  const statusEl  = document.getElementById('wrStatus');
+  const detailEl  = document.getElementById('wrDetail');
+
+  resultDiv.classList.add('active');
+
+  if (!serial) {
+    statusEl.innerHTML = `<span style="color:#ffbb00">Please enter a serial number.</span>`;
+    detailEl.textContent = '';
+    return;
+  }
+
+  if (warrantyDB[serial]) {
+    const d = warrantyDB[serial];
+    const isActive = d.status === 'Active';
+    const color = isActive ? '#00ff88' : '#ff4d4d';
+    const icon  = isActive ? '✓' : '✗';
+    resultDiv.style.borderColor = isActive ? 'rgba(0,255,136,0.25)' : 'rgba(255,77,77,0.25)';
+    statusEl.innerHTML = `<span style="color:${color}">${icon} Warranty ${d.status}</span>`;
+    detailEl.innerHTML = `${d.product} &nbsp;·&nbsp; Valid until <strong style="color:#e0e6f0">${d.expiry}</strong>`;
+  } else {
+    resultDiv.style.borderColor = 'rgba(255,187,0,0.25)';
+    statusEl.innerHTML = `<span style="color:#ffbb00">⚠ Serial number not found</span>`;
+    detailEl.innerHTML = `Please double-check and try again, or contact <a href="mailto:support@abrtechnologies.in" style="color:var(--neon)">support@abrtechnologies.in</a>`;
+  }
+}
+
+function driverAlert(name) {
+  alert(`${name}\n\nThis download will be available shortly.\nFor immediate assistance, contact: support@abrtechnologies.in`);
+}
+
+/* Allow pressing Enter in the warranty input */
+document.getElementById('serialInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkWarranty();
+});
+
+let state = { d:{ proc:'all', use:'all' }, w:{ proc:'all', use:'all' } };
+</script>
+</body>
+</html>
